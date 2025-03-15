@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizim Hikayemiz 💖</title>
+    <style>
+        body {
+            background: url('your-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFD700;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 2s;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .banner {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 50px 0;
+            font-size: 35px;
+            font-weight: bold;
+            color: #ff4d6d;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .tab {
+            background: #ff4d6d;
+            color: white;
+            padding: 15px 25px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .tab:hover {
+            background: #ffd700;
+            color: #8B0000;
+        }
+        .section {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            display: none;
+            animation: slideIn 1s;
+        }
+        .active {
+            display: block;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gallery img {
+            width: 200px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            border: 3px solid #FFD700;
+            transition: transform 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        var password = prompt("Bu sayfayı görmek için şifreyi girin:");
+        if (password !== "160322") {
+            document.body.innerHTML = "<h2>Erişim Engellendi!</h2>";
+        }
+    </script>
+    
+    <div class="banner">Bizim Hikayemiz 💖</div>
+    
+    <div class="tabs">
+        <div class="tab" onclick="openTab('gallery')">📸 Fotoğraflar</div>
+        <div class="tab" onclick="openTab('messages')">💌 Aşk Mesajları</div>
+        <div class="tab" onclick="openTab('letter')">📜 Sürpriz Mektup</div>
+    </div>
+    
+    <div id="gallery" class="section active">
+        <h2>📸 Fotoğraf Galerimiz</h2>
+        <input type="file" accept="image/*" multiple onchange="saveImages(event)">
+        <button onclick="finalizeGallery()">Kaydet</button>
+        <div class="gallery" id="photoGallery"></div>
+    </div>
+    
+    <div id="messages" class="section">
+        <h2>💖 Aşk Mesajları</h2>
+        <p>"Zeynep, sen benim en güzel şansım, kalbimin en özel köşesisin. 💕"</p>
+        <p>"Seninle her gün yeni bir macera, her an aşk dolu. 💛"</p>
+        <p>"Kalbim sadece sana ait, sonsuza kadar... 💖"</p>
+        <p>"Gözlerine her baktığımda dünyayı unuturum. 💍"</p>
+        <p>"Sana olan sevgim her gün büyüyor, tıpkı güneşin doğuşu gibi. 🌅"</p>
+    </div>
+    
+    <div id="letter" class="section">
+        <h2>📜 Sevgilimmmm 💌</h2>
+        <p>Sevgilim, sen benim en güzel rastlantımsın. Sana olan sevgim her geçen gün katlanarak artıyor. 
+        Seninle geçen her an, benim için tarifsiz bir mutluluk. Gülüşün, sesin, varlığın bana dünyadaki en güzel hediyedir. 
+        Hayatımda olduğun için minnettarım ve seni sonsuza dek seveceğim. 💖</p>
+    </div>
+    
+    <h2>🎵 Müzik 🎶</h2>
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" 
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/ilya-bokarev/lady-gaga-bruno-mars-die-with&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true">
+    </iframe>
+    
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        window.onload = function() {
+            let savedImages = JSON.parse(localStorage.getItem("savedImages")) || [];
+            let gallery = document.getElementById("photoGallery");
+            savedImages.forEach(src => {
+                let img = document.createElement("img");
+                img.src = src;
+                gallery.appendChild(img);
+            });
+        }
+        
+        function saveImages(event) {
+            let gallery = document.getElementById("photoGallery");
+            let images = JSON.parse(localStorage.getItem("savedImages")) || [];
+            for (let file of event.target.files) {
+                let reader = new FileReader();
+                reader.onload = function(){
+                    let img = document.createElement("img");
+                    img.src = reader.result;
+                    gallery.appendChild(img);
+                    images.push(reader.result);
+                    localStorage.setItem("savedImages", JSON.stringify(images));
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
